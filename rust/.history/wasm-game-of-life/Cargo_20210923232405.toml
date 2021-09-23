@@ -36,6 +36,4 @@ opt-level = "s"
 
 [dev-dependencies.web-sys]
 version = "0.3.0"
-features = [
-    "console",
-    ]
+features = ["console"]

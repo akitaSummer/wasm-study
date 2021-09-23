@@ -4,10 +4,8 @@ use std::fmt;
 use wasm_bindgen::prelude::*;
 
 extern crate web_sys;
-macro_rules! log {
-    (_$( $t:tt )* ) => {
-        web_sys::console::log_1(&format!( $( $t )* ) .into());
-    }
+macro rules! log {
+    ()
 }
 
 // When the `wee_alloc` feature is enabled, use `wee_alloc` as the global
@@ -92,15 +90,6 @@ impl Universe {
                 let cell = self.cells[idx];
                 let live_neighbors = self.live_neighbor_count(row, col);
 
-                // 变化前打印一下情况
-                log!(
-                    "cell [{}, {}] is initally {:?} and has {} live neighbors",
-                    row,
-                    col,
-                    cell,
-                    live_neighbors
-                );
-
                 let next_cell = match (cell, live_neighbors) {
                     (Cell::Alive, x) if x < 2 => Cell::Dead,
                     (Cell::Alive, 2) | (Cell::Alive, 3) => Cell::Alive,
@@ -108,9 +97,6 @@ impl Universe {
                     (Cell::Dead, 3) => Cell::Alive,
                     (otherwise, _) => otherwise,
                 };
-
-                // 变化后打印一下情况
-                log!("it becomes {:?}", next_cell);
 
                 next[idx] = next_cell;
             }
